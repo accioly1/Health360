@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="pt-BR"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Health360</title>
+<style>
+:root{--bg:#f4f6f1;--card:#fff;--ink:#14251d;--mut:#5f7268;--pri:#1b5a47;--on:#fff;--pri2:#e3efe7;--line:#dde5dc;--warn:#fbf1d9;--bad:#a3362b;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0e1612;--card:#17221c;--ink:#e8efe9;--mut:#9bafa3;--pri:#4fae8a;--on:#08140f;--pri2:#1f352a;--line:#29392f;--warn:#3a321a;--bad:#ff8a7d}}
+*{box-sizing:border-box}html,body{height:100%;margin:0}body{background:var(--bg);color:var(--ink);font:15px/1.45 system-ui,-apple-system,"Segoe UI",sans-serif}
+#app{max-width:480px;margin:0 auto;height:100%;display:flex;flex-direction:column;position:relative}
+.top{display:flex;align-items:center;justify-content:space-between;padding:12px 16px;font-weight:600;min-height:48px}
+.top button{background:none;border:0;color:var(--ink);padding:4px;width:32px}
+.lg{display:flex;align-items:center;gap:8px}.lg i{width:24px;height:24px;border-radius:7px;background:var(--pri);color:var(--on);display:grid;place-items:center;font-style:normal;font-size:14px}
+main{flex:1;overflow-y:auto;padding:4px 18px 28px}
+.eb{font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--pri);font-weight:700;margin:8px 0 4px}
+h1{font-size:27px;line-height:1.15;margin:2px 0 6px;font-weight:700;letter-spacing:-.01em}h2{font-size:16px;margin:20px 0 8px;display:flex;justify-content:space-between;align-items:baseline}h2 a{font-size:13px;color:var(--pri);font-weight:600}
+.m{color:var(--mut);font-size:13px}.c{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:14px;margin:8px 0}.c.t{cursor:pointer}
+.note{background:var(--pri2);border-radius:12px;padding:10px 12px;font-size:12.5px;margin:10px 0;color:var(--ink)}.warn{background:var(--warn)}.err{color:var(--bad);font-size:13px;margin:8px 0}
+label.l{display:block;font-size:13px;font-weight:600;margin:14px 0 5px}
+input,select,textarea{width:100%;font:inherit;color:var(--ink);background:var(--card);border:1px solid var(--line);border-radius:12px;padding:12px}
+input[type=checkbox]{width:20px;height:20px;flex:none;accent-color:var(--pri)}
+.g{display:flex;gap:10px;flex-wrap:wrap}.g>div{flex:1 1 100%}.g>div.h{flex:1 1 40%}
+.b{display:flex;align-items:center;justify-content:center;gap:8px;width:100%;border:0;border-radius:14px;padding:14px;font:600 15px inherit;font-family:inherit;background:var(--pri);color:var(--on);margin:12px 0 0;cursor:pointer}
+.b.s{background:var(--card);color:var(--pri);border:1px solid var(--line)}.b.d{background:none;color:var(--bad);border:1px solid var(--line)}.b:disabled{opacity:.4}
+.row{display:flex;gap:10px;align-items:center}.row>.b{flex:1}.sp{justify-content:space-between}
+.seg{display:flex;background:var(--pri2);border-radius:12px;padding:3px}.seg button{flex:1;border:0;background:none;padding:9px;border-radius:10px;font:600 14px inherit;font-family:inherit;color:var(--mut)}.seg button.on{background:var(--pri);color:var(--on)}
+.chips{display:flex;gap:6px;flex-wrap:wrap;margin:10px 0}.chip{padding:7px 14px;border-radius:99px;background:var(--card);border:1px solid var(--line);color:var(--ink);font:13px inherit;font-family:inherit}.chip.on{background:var(--pri);color:var(--on);border-color:var(--pri)}
+nav{display:flex;border-top:1px solid var(--line);background:var(--card)}nav button{flex:1;border:0;background:none;color:var(--mut);padding:8px 0 6px;font:11px inherit;font-family:inherit}nav button.on{color:var(--pri);font-weight:700}nav svg{display:block;margin:0 auto 2px}
+.hero{background:var(--pri);color:var(--on);border-radius:20px;padding:18px;margin:10px 0}.hero h1{font-size:26px;margin:6px 0 10px}.hero .eb{color:inherit;opacity:.8}.hero .n{display:flex;gap:28px}.hero b{font-size:26px;display:block}
+.tiles{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}.tiles button{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:12px 0;color:var(--pri);font:11px inherit;font-family:inherit}.tiles svg{display:block;margin:0 auto 4px}
+.tag{display:inline-block;font-size:11px;font-weight:700;padding:2px 8px;border-radius:99px;background:var(--pri2);color:var(--pri)}
+.sw{appearance:none;width:46px;height:28px;border-radius:99px;background:var(--line);position:relative;flex:none;padding:0;border:0}.sw:checked{background:var(--pri)}.sw:after{content:"";position:absolute;top:3px;left:3px;width:22px;height:22px;border-radius:50%;background:#fff;transition:.15s}.sw:checked:after{left:21px}
+.ck{display:flex;gap:10px;align-items:flex-start;font-size:13px}.sc{position:absolute;inset:0;background:#0b1410;color:#fff;z-index:9;padding:20px;display:flex;flex-direction:column;align-items:center;text-align:center}
+.fr{width:100%;flex:1;margin:18px 0;border:2px dashed #7fd1b0;border-radius:18px;display:grid;place-items:center;color:#9fb;font-size:13px}
+</style></head><body><div id="app"><div class="top" id="top"></div><main id="m"></main><nav id="nav"></nav></div>
+<script>
+const $=s=>document.querySelector(s);
+let S;try{S=JSON.parse(localStorage.getItem('h360'))||{}}catch(e){S={}}
+S.recs=S.recs||[];S.docs=S.docs||[];S.taken=S.taken||{};
+const save=()=>{try{localStorage.setItem('h360',JSON.stringify(S))}catch(e){}};
+const sha=async s=>[...new Uint8Array(await crypto.subtle.digest('SHA-256',new TextEncoder().encode(s)))].map(b=>b.toString(16).padStart(2,'0')).join('');
+const td=()=>{const d=new Date();return new Date(d-d.getTimezoneOffset()*6e4).toISOString().slice(0,10)};
+const fmt=(d,s)=>d?new Date(d+'T12:00').toLocaleDateString('pt-BR',s?{day:'2-digit',month:'short'}:{day:'2-digit',month:'short',year:'numeric'}).replace(/\./g,''):'';
+const add=(d,n)=>{const x=new Date(d+'T12:00');x.setDate(x.getDate()+n);return x.toISOString().slice(0,10)};
+const esc=s=>String(s??'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const P={home:'M3 11l9-8 9 8v10H3z',hist:'M12 7v5l3 2M3 12a9 9 0 1 0 3-6.7M3 4v4h4',docs:'M6 3h9l4 4v14H6zM14 3v5h5',bell:'M6 16v-5a6 6 0 0 1 12 0v5l2 2H4zM10 21h4',user:'M12 12a4 4 0 1 0 0-8 4 4 0 0 0 0 8M4 21a8 8 0 0 1 16 0',cal:'M4 5h16v16H4zM4 10h16M8 3v4M16 3v4',flask:'M9 3h6M10 3v6L4 20h16L14 9V3',syr:'M18 3l3 3M16 5l3 3-9 9-4 1 1-4zM3 21l3-3',pill:'M10 14l4-4M7 17a4 4 0 0 1 0-6l4-4a4 4 0 0 1 6 6l-4 4a4 4 0 0 1-6 0z',back:'M15 5l-7 7 7 7',cam:'M4 8h4l2-3h4l2 3h4v12H4zM12 17a3 3 0 1 0 0-6 3 3 0 0 0 0 6',plus:'M12 5v14M5 12h14',x:'M6 6l12 12M18 6L6 18',lock:'M6 11h12v10H6zM8 11V7a4 4 0 0 1 8 0v4'};
+const I=(k,s=22)=>`<svg width="${s}" height="${s}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="${P[k]}"/></svg>`;
+const T={consulta:'Consulta',exame:'Exame',vacina:'Vacina',medicamento:'Medicamento'},TI={consulta:'cal',exame:'flask',vacina:'syr',medicamento:'pill'};
+/* [chave,rótulo,tipo,metade] — '#' = título de seção; 'n:' = aviso */
+const F={
+consulta:[['status','','seg:Agendada,Realizada'],['date','Data *','date',1],['time','Horário *','time',1],['title','Especialidade *'],['pro','Profissional *'],['place','Local *'],['addr','Endereço'],['motivo','Motivo da consulta *','area'],['note','Observações / diagnóstico registrado','area'],['n:','Registre apenas o que foi informado pelo profissional ou suas próprias anotações.'],['#','Recomendação de retorno'],['ret','Orientação recebida','area'],['next','Data de retorno informada','date'],['n:','O aplicativo não define o prazo. O lembrete é agendado ao salvar, e os alertas dependem da permissão do dispositivo.']],
+exame:[['title','Nome do exame *'],['date','Data de realização *','date'],['place','Laboratório *'],['pro','Médico solicitante'],['note','Laudo / resultados registrados','area'],['n:','Este campo guarda informações registradas, sem interpretação ou diagnóstico pelo aplicativo.'],['#','Repetição recomendada'],['ret','Orientação recebida','area'],['next','Data recomendada informada','date'],['n:','Prazo registrado por você a partir da orientação profissional.']],
+vacina:[['title','Nome da vacina *'],['lote','Lote *'],['dose','Dose *'],['date','Data de aplicação *','date'],['place','Local de aplicação *'],['pro','Profissional aplicador'],['#','Próxima dose ou reforço'],['ndose','Próxima dose informada'],['next','Data informada pelo serviço','date'],['ntime','Horário para lembrar','time'],['n:','O aplicativo não calcula nem recomenda o esquema vacinal.']],
+medicamento:[['n:','O Health360 não prescreve, calcula doses ou modifica o tratamento automaticamente.'],['title','Nome do medicamento *'],['dose','Concentração / dosagem *'],['freq','Frequência prescrita *'],['time','Horário da tomada *','time'],['date','Início *','date',1],['end','Término','date',1],['pro','Profissional prescritor *'],['note','Orientações da receita','area']]};
+let v={n:'welcome'},f='all',err='',pend=null;
+const go=(n,p={})=>{v={n,...p};err='';draw();$('#m').scrollTop=0};
+const isMed=r=>r.type==='medicamento',act=r=>isMed(r)&&r.date<=td()&&(!r.end||r.end>=td());
+const lead=r=>r.rem?.days??(r.type==='exame'?7:1),rt=r=>r.rem?.time||r.ntime||r.time||'09:00',on=r=>r.rem?.on!==false;
+function evs(){const o=[];S.recs.forEach(r=>{let d,t;if(r.type==='consulta'&&r.status!=='Realizada'&&r.status!=='Cancelada'&&r.date>=td())d=r.date,t=r.title;
+if(r.type==='vacina'&&r.next&&r.next>=td())d=r.next,t=r.title+' · próxima dose';
+if(r.type==='exame'&&r.next&&r.next>=td())d=r.next,t='Repetir '+r.title;
+if(d)o.push({k:d,t,id:r.id,al:add(d,-lead(r)),h:rt(r),n:lead(r),on:on(r),r})});return o.sort((a,b)=>a.k<b.k?-1:1)}
+const recs=()=>evs().filter(e=>e.r.type==='exame').length;
+const take=id=>{S.taken[id+td()]=new Date().toTimeString().slice(0,5);save();draw()};
+const hd=(k,t,s)=>`<div class="eb">${k}</div><h1>${t}</h1>${s?`<div class="m">${s}</div>`:''}`;
+const card=r=>`<div class="c t" onclick="go('det',{id:'${r.id}',back:'hist'})"><div class="row sp"><div><div class="m">${fmt(r.date)}${r.time?' · '+esc(r.time):''}</div><b>${esc(r.title)}</b><div class="m">${esc([r.pro,r.place].filter(Boolean).join(' · '))}</div></div><span class="tag">${T[r.type]}</span></div></div>`;
+const tabs=[['home','home','Início'],['hist','hist','Histórico'],['docs','docs','Documentos'],['rem','bell','Lembretes'],['prof','user','Perfil']],TAB=tabs.map(t=>t[0]);
+const NAME={welcome:'',login:'',signup:'',home:'',hist:'',docs:'',rem:'',prof:''};
+function draw(){const n=v.n,inApp=TAB.includes(n)||['vac','meds'].includes(n);
+$('#nav').style.display=TAB.includes(n)?'flex':'none';
+$('#nav').innerHTML=tabs.map(t=>`<button class="${t[0]===n?'on':''}" onclick="go('${t[0]}')">${I(t[1])}${t[2]}</button>`).join('');
+const back=v.back||(!TAB.includes(n)&&S.sess?'home':(['login','signup'].includes(n)?'welcome':''));
+$('#top').innerHTML=(back?`<button onclick="go('${back}')">${I('back')}</button>`:'<span style="width:32px"></span>')+'<span class="lg"><i>✚</i>Health360</span>'+(['home','hist','rem'].includes(n)?`<button onclick="go('rem')">${I('bell',20)}</button>`:'<span style="width:32px"></span>');
+$('#m').innerHTML=V[n]?V[n]():'';}
+const V={
+welcome:()=>`<div class="hero" style="margin-top:30px;padding:26px"><div class="eb">Menos papéis. Mais clareza.</div><h1 style="font-size:32px">Sua história.<br>Sempre com você.</h1></div>
+<h1 style="margin-top:22px">Sua saúde, com mais cuidado e organização.</h1><p class="m">Consultas, exames, vacinas e medicamentos em um só lugar. Um espaço pessoal para a sua história de saúde.</p>
+<button class="b" onclick="go('signup')">Criar minha conta</button><button class="b s" onclick="go('login')">Já tenho conta · Entrar</button><div class="note" style="margin-top:20px">Seus dados pertencem a você. Compartilhar será sempre uma escolha sua.</div>`,
+login:()=>`${hd('Seu espaço de cuidado','Bom ter você de volta.','Entre para continuar organizando sua saúde.')}
+<label class="l">E-mail</label><input id="e" type="email" autocomplete="username"><div class="m">Informe o e-mail usado na criação da conta.</div><label class="l">Senha</label><input id="p" type="password" autocomplete="current-password">
+<div class="err">${err}</div><button class="b" onclick="login()">Entrar</button><p class="m" style="text-align:center">ou</p><button class="b s" onclick="bio()">Entrar com biometria</button><div class="m" style="margin-top:6px">Disponível após ativar a biometria nesta conta e neste dispositivo.</div>
+<div class="note"><b>Um acesso só seu.</b> Não compartilhe sua senha. Seus registros são pessoais e só devem ser compartilhados com sua autorização.</div><button class="b s" onclick="go('signup')">Ainda não tenho conta</button>`,
+signup:()=>`${hd('Acesso · criar conta','Comece pelo seu espaço.','Crie seu acesso. Você poderá completar o perfil de saúde em seguida.')}
+<label class="l">Nome completo</label><input id="n"><label class="l">E-mail</label><input id="e" type="email"><label class="l">Senha</label><input id="p" type="password"><div class="m">Use ao menos 8 caracteres, letras e números.</div><label class="l">Confirmar senha</label><input id="p2" type="password">
+<div class="note" style="margin-top:16px"><div class="eb">Seus dados, sua decisão</div>Dados de saúde são sensíveis. Eles serão tratados para organizar seus registros, documentos e lembretes pessoais.<label class="ck" style="margin-top:10px"><input type="checkbox" id="ok" onchange="$('#cb').disabled=!this.checked">Li e autorizo expressamente o tratamento dos meus dados pessoais e de saúde para essas finalidades.</label></div>
+<div class="m">Você poderá consultar e revogar o consentimento nas configurações de privacidade.</div><div class="err">${err}</div><button class="b" id="cb" disabled onclick="signup()">Criar conta</button><div class="m" style="text-align:center;margin-top:6px">Para continuar, leia a política e marque a autorização acima.</div><button class="b s" onclick="go('login')">Já tenho conta · Entrar</button>`,
+home:()=>{const h=new Date(),meds=S.recs.filter(act),nx=evs()[0],todayN=meds.filter(r=>!S.taken[r.id+td()]).length;
+return `<div class="eb">${h.toLocaleDateString('pt-BR',{weekday:'long',day:'numeric',month:'long'}).toUpperCase()}</div><h1>Olá, ${esc((S.user.name||'').split(' ')[0])}.</h1><div class="m">Um olhar tranquilo para a sua agenda.</div>
+<div class="hero"><div class="eb">Seu cuidado em dia</div><h1>Tudo tem seu lugar.<br>E seu tempo.</h1><div class="n"><span><b>${todayN}</b>lembrete hoje</span><span><b>${recs()}</b>recomendações</span></div></div>
+<h2>Seus registros</h2><div class="tiles">${[['consulta','Consultas',"go('hist',{});f='consulta';draw()"],['exame','Exames',"go('hist');f='exame';draw()"],['vacina','Vacinas',"go('vac')"],['medicamento','Medicamentos',"go('meds')"]].map(t=>`<button onclick="${t[2]}">${I(TI[t[0]])}${t[1]}</button>`).join('')}</div>
+<h2>Na sua agenda <a onclick="go('rem')">Ver lembretes</a></h2>
+${meds.map(r=>`<div class="c"><div class="eb">Hoje · ${esc(r.time)} · Próxima medicação</div><b>${esc(r.title)} · ${esc(r.dose)}</b><div class="m">${esc(r.freq)} · conforme prescrição cadastrada</div>${S.taken[r.id+td()]?`<div class="m">✓ Tomada registrada às ${S.taken[r.id+td()]}</div>`:`<button class="b s" onclick="take('${r.id}')">Registrar tomada</button>`}</div>`).join('')}
+${nx?`<div class="c t" onclick="go('det',{id:'${nx.id}'})"><b>${esc(nx.t)}</b><div class="m">${fmt(nx.k,1)}${nx.r.time?', '+esc(nx.r.time):''} · ${esc(nx.r.pro||nx.r.place||'')}</div></div>`:''}
+${!meds.length&&!nx?'<div class="c m">Nada na agenda por enquanto.</div>':''}
+<div class="row"><button class="b" onclick="newRec()">${I('plus',18)} Novo registro</button><button class="b s" onclick="go('docs')">Documento</button></div>
+<div class="c t" onclick="go('recs')"><b>Retornos e repetições</b><div class="m">Acompanhe as orientações que você registrou.</div></div>
+<div class="m" style="text-align:center;margin-top:14px">O Health360 organiza suas informações. Não substitui orientação profissional.</div>`},
+hist:()=>{const L=S.recs.filter(r=>f==='all'||r.type===f).sort((a,b)=>a.date<b.date?1:-1);const fu=L.filter(r=>r.date>td()).reverse(),pa=L.filter(r=>r.date<=td());
+return `${hd('Registros · linha do tempo','Sua história de saúde','Passado e próximos eventos, bem organizados.')}
+${!navigator.onLine?`<div class="note warn"><b>Você está offline</b><br>Histórico e cadastros básicos disponíveis neste dispositivo.</div>`:''}
+<div class="chips">${[['all','Todos'],...Object.entries(T)].map(([k,l])=>`<button class="chip ${f===k?'on':''}" onclick="f='${k}';draw()">${l==='Medicamento'?'Medicamentos':l==='Consulta'?'Consultas':l==='Exame'?'Exames':l==='Vacina'?'Vacinas':l}</button>`).join('')}</div>
+${fu.length?'<h2>Próximos eventos</h2>'+fu.map(card).join(''):''}<div class="m" style="text-align:center;margin:10px 0">— Hoje · ${fmt(td())} —</div><h2>Eventos passados</h2>${pa.map(card).join('')||'<div class="c m">Sem registros ainda.</div>'}`},
+det:()=>{const r=S.recs.find(x=>x.id===v.id);if(!r)return '';const ds=S.docs.filter(d=>d.link===r.id),skip=['title','date','time','status','n:','#'];
+const e=evs().find(x=>x.id===r.id);
+return `${hd(T[r.type]+'s · detalhes',esc(r.title),'')}${r.status?`<span class="tag">${r.status}</span> `:''}${r.date>=td()&&r.type==='consulta'?`<span class="tag">Em ${Math.round((new Date(r.date)-new Date(td()))/864e5)} dias</span>`:''}
+<div class="c"><div class="eb">${fmt(r.date)}</div><b style="font-size:20px">${r.time?esc(r.time):''}</b>${r.pro?`<div>${esc(r.pro)}</div>`:''}<div class="m">${esc([r.place,r.addr].filter(Boolean).join(' · '))}</div></div>
+${F[r.type].filter(x=>!skip.includes(x[0])&&!x[0].startsWith('n:')&&r[x[0]]).map(x=>`<div class="c"><div class="eb">${x[1].replace(' *','')}</div>${x[2]==='date'?fmt(r[x[0]]):esc(r[x[0]])}</div>`).join('')}
+<h2>Anexos <a onclick="go('docs',{link:'${r.id}'})">Adicionar</a></h2>${ds.map(d=>`<div class="c">📎 ${esc(d.name)}<div class="m">${d.size} · Vinculado a: esta ${T[r.type].toLowerCase()}</div></div>`).join('')||'<div class="m">Nenhum anexo.</div>'}
+${e?`<div class="note"><b>Lembrete · ${e.n} dia(s) antes</b><br>${fmt(e.al)}, às ${e.h}${e.on?'':' (desativado)'}</div><button class="b s" onclick="go('remcfg',{id:'${r.id}'})">Configurar lembrete</button>`:''}
+<button class="b" onclick="go('form',{t:r.type,id:'${r.id}'})">Editar informações</button>
+${r.type==='consulta'&&r.status==='Agendada'?`<button class="b s" onclick="go('form',{t:'consulta',id:'${r.id}'})">Remarcar consulta</button><button class="b d" onclick="S.recs.find(x=>x.id==='${r.id}').status='Cancelada';save();go('hist')">Cancelar agendamento</button><div class="m">Cancelar mantém o registro no seu histórico. Não exclui a consulta nem os anexos.</div>`:''}
+<button class="b d" onclick="del('${r.id}')">Excluir registro</button>`},
+form:()=>{const r=S.recs.find(x=>x.id===v.id)||v.pre||{},fs=F[v.t],st=r.status||'Agendada';
+return `${hd('Novo registro · '+T[v.t]+'s','Registrar '+T[v.t].toLowerCase(),{consulta:'Inclua um compromisso ou uma consulta que já aconteceu.',exame:'Guarde os dados e o documento original, sem perder o contexto.',vacina:'Transcreva os dados da aplicação e guarde seu comprovante.',medicamento:'Copie os dados da prescrição, sem alterar a orientação recebida.'}[v.t])}
+<div class="g">${fs.map(([k,l,t,h])=>k==='n:'?`<div><div class="note">${l}</div></div>`:k==='#'?`<div><h2>${l}</h2></div>`:t&&t.startsWith('seg')?`<div><div class="seg">${t.slice(4).split(',').map(o=>`<button class="${st===o?'on':''}" onclick="this.parentNode.querySelectorAll('button').forEach(b=>b.classList.remove('on'));this.classList.add('on');this.parentNode.dataset.v='${o}'">${o}</button>`).join('')}</div></div>`:`<div class="${h?'h':''}"><label class="l">${l}</label>`+(t==='area'?`<textarea id="f_${k}" rows="3">${esc(r[k])}</textarea>`:`<input id="f_${k}" type="${t||'text'}" value="${esc(r[k])}">`)+'</div>').join('')}</div>
+<div class="note"><b>Lembrete do evento</b><br>Será agendado ao salvar. Os alertas dependem da permissão do dispositivo. * Campos obrigatórios.</div><div class="err">${err}</div><button class="b" onclick="saveRec()">Salvar ${T[v.t].toLowerCase()}</button>`},
+vac:()=>{const L=S.recs.filter(r=>r.type==='vacina').sort((a,b)=>a.date<b.date?1:-1),nx=evs().find(e=>e.r.type==='vacina');
+return `${hd('Registros · vacinas','Sua carteira pessoal','Doses e comprovantes que você reuniu.')}
+<div class="row"><div class="c"><b style="font-size:22px">${L.length}</b><div class="m">doses registradas</div></div><div class="c"><b style="font-size:22px">${evs().filter(e=>e.r.type==='vacina').length}</b><div class="m">próxima dose informada</div></div></div>
+<div class="note">Sua carteira é pessoal e não possui integração com registros oficiais de vacinação.</div>
+${nx?`<h2>Próxima dose</h2><div class="c t" onclick="go('det',{id:'${nx.id}',back:'vac'})"><div class="eb">Data informada · não aplicada</div><b>${esc(nx.r.title)} · ${esc(nx.r.ndose||'')}</b><div class="m">${fmt(nx.k,1)}, às ${nx.h} · ${esc(nx.r.place||'')}</div><div class="m">Lembrete · ${nx.n} dia(s) antes</div></div>`:''}
+<h2>Doses registradas</h2>${L.map(r=>`<div class="c t" onclick="go('det',{id:'${r.id}',back:'vac'})"><b>${esc(r.title)} · ${esc(r.dose)}</b><div class="m">${fmt(r.date)} · ${esc(r.place)}<br>Aplicada${S.docs.some(d=>d.link===r.id)?' · Comprovante anexado':' · Registro pessoal'}</div></div>`).join('')||'<div class="m">Nenhuma dose ainda.</div>'}
+<button class="b" onclick="go('form',{t:'vacina',back:'vac'})">Registrar vacinação</button><div class="m" style="margin-top:10px">O Health360 não calcula esquemas vacinais. Confirme doses e reforços com um profissional de saúde.</div>`},
+meds:()=>{const A=S.recs.filter(act),E=S.recs.filter(r=>isMed(r)&&!act(r)&&r.end&&r.end<td()),card2=(r,a)=>`<div class="c"><div class="row sp"><span class="tag">${a?'Em andamento':'Encerrado'}</span><span class="m">${esc(r.time)}${a?' · Hoje':''}</span></div><b>${esc(r.title)} · ${esc(r.dose)}</b><div class="m">${esc(r.freq)}<br>Prescritor(a): ${esc(r.pro)}<br>Início ${fmt(r.date)}${r.end?' · Término '+fmt(r.end):''}</div>${a?(S.taken[r.id+td()]?`<div class="m">✓ Tomada registrada às ${S.taken[r.id+td()]}</div>`:`<button class="b" onclick="take('${r.id}')">Registrar tomada das ${esc(r.time)}</button><div class="m">Ainda não registrada hoje. Anotação pessoal, sem ajuste automático do tratamento.</div>`):'<div class="m">Sem lembretes ativos para este período.</div>'}<a class="m" style="color:var(--pri)" onclick="go('form',{t:'medicamento',id:'${r.id}',back:'meds'})">Editar</a></div>`;
+return `${hd('Registros · medicamentos','Seu tratamento, organizado','Horários e períodos conforme as prescrições que você cadastrou.')}<div class="note">Uso estritamente organizacional. Siga a prescrição do seu profissional; o app não prescreve nem altera doses.</div>
+<h2>Tratamento ativo <span class="m">${A.length} registro(s)</span></h2>${A.map(r=>card2(r,1)).join('')||'<div class="m">Nenhum tratamento ativo.</div>'}
+<h2>Tratamento encerrado <span class="m">${E.length} registro(s)</span></h2>${E.map(r=>card2(r,0)).join('')}
+<button class="b" onclick="go('form',{t:'medicamento',back:'meds'})">Registrar medicamento</button>`},
+docs:()=>{const cats=[['all','Todos'],['vacina','Vacinas'],['exame','Exames'],['receita','Receitas'],['consulta','Consultas']];const typ=d=>(S.recs.find(r=>r.id===d.link)||{}).type||d.cat||'';
+const L=S.docs.filter(d=>(f==='all'||typ(d)===f)&&(!v.q||d.name.toLowerCase().includes(v.q.toLowerCase())));
+return `${hd('Seu arquivo pessoal','Documentos, reunidos.','Laudos, comprovantes e receitas com o contexto de cada registro.')}
+<label class="l"><input placeholder="Buscar nome ou categoria" value="${esc(v.q)}" oninput="v.q=this.value;draw();this.focus()"></label>
+<div class="chips">${cats.map(([k,l])=>`<button class="chip ${f===k?'on':''}" onclick="f='${k}';draw()">${l}${k==='all'?' · '+S.docs.length:''}</button>`).join('')}</div>
+<div class="row"><button class="b" onclick="go('scan',{link:'${v.link||''}'})">${I('cam',18)} Digitalizar</button><label class="b s" style="margin-top:12px">Importar<input hidden type="file" accept="image/*,application/pdf" onchange="pick(this)"></label></div>
+<div class="note"><b>Cada arquivo, no seu lugar</b><br>Ao adicionar, associe a uma consulta, exame ou vacina, ou escolha uma categoria no perfil.</div>
+<h2>Recentes <span class="m">${L.length} documentos</span></h2>${L.map(d=>{const r=S.recs.find(x=>x.id===d.link);return `<div class="c"><b>📎 ${esc(d.name)}</b><div class="m">${d.size} · ${fmt(d.date)}<br>Vinculado a: ${r?esc(r.title)+' · '+fmt(r.date,1):'Perfil · '+esc(d.cat||'Receitas')}</div>${d.url?`<a class="m" style="color:var(--pri)" href="${d.url}" target="_blank">Abrir</a> · `:''}<a class="m" style="color:var(--bad)" onclick="S.docs=S.docs.filter(x=>x.id!=='${d.id}');save();draw()">Remover</a></div>`}).join('')||'<div class="m">Nenhum documento.</div>'}`},
+scan:()=>`<div class="sc"><div class="row sp" style="width:100%"><b>Digitalizar documento</b><button class="back" style="background:none;border:0;color:#fff" onclick="go('docs')">${I('x')}</button></div><h1 style="margin-top:24px">Enquadre a página inteira</h1><div class="m" style="color:#aab">Use uma superfície plana e boa iluminação. Evite sombras e reflexos.</div><div class="fr">Abra a câmera para capturar</div>
+<label class="b" style="max-width:300px">${I('cam',18)} Capturar<input hidden type="file" accept="image/*" capture="environment" onchange="pick(this)"></label><label class="b s" style="max-width:300px">Escolher arquivo<input hidden type="file" accept="image/*,application/pdf" onchange="pick(this)"></label>
+<div class="m" style="color:#aab;margin-top:12px">A câmera precisa da sua permissão. Depois da captura, você revisa os dados antes de salvar qualquer informação.</div></div>`,
+rev:()=>{const p=pend;return `${hd('Documentos · revisão da leitura','Confira antes de salvar','A leitura automática pode conter erros. Compare cada campo com o original.')}
+<div class="c">${p.url&&p.type.startsWith('image')?`<img src="${p.url}" style="width:100%;border-radius:10px;max-height:240px;object-fit:contain">`:'📄'}<div class="m">${esc(p.name)} · ${p.size} · <span class="tag">Aguardando revisão</span></div></div>
+<div class="note"><b>Nada será salvo sem sua confirmação</b><br>Revise e corrija os campos abaixo. Não há interpretação de resultados pelo Health360.</div>
+<h2>Dados identificados</h2><label class="l">Nome do documento</label><input id="rn" value="${esc(p.name)}"><label class="l">Data</label><input id="rd" type="date" value="${td()}">
+<h2>Onde guardar este documento? *</h2><select id="rl" onchange="chk()"><option value="">Selecione…</option>${S.recs.map(r=>`<option value="${r.id}" ${v.link===r.id?'selected':''}>${T[r.type]} · ${esc(r.title)} · ${fmt(r.date,1)}</option>`).join('')}<option value="cat:Receitas">Categoria no perfil · Receitas</option><option value="cat:Exames">Categoria no perfil · Exames</option></select>
+<div class="m">Obrigatório: vincule a consulta, exame ou vacina; ou escolha uma categoria no perfil.</div>
+<label class="ck note" style="margin-top:14px"><input type="checkbox" id="rc" onchange="chk()">Revisei todos os campos, corrigi os dados necessários e confirmo que correspondem ao documento original.</label>
+<button class="b" id="rs" disabled onclick="saveDoc()">Salvar documento e dados</button><button class="b s" onclick="go('scan')">Escanear novamente</button>`},
+rem:()=>{const e=evs(),meds=S.recs.filter(act),np=typeof Notification!=='undefined'?Notification.permission:'denied';
+return `${hd('Sua agenda pessoal','Cada cuidado, no seu tempo.','Lembretes associados aos seus registros.')}
+${np!=='granted'?`<div class="note warn"><b>Notificações desativadas</b><br>Os lembretes continuam na agenda, mas os alertas no dispositivo precisam da sua permissão.<button class="b" onclick="perm()">Configurar notificações</button></div>`:''}
+<h2>Hoje · ${fmt(td(),1)} <span class="m">${meds.length} lembrete(s)</span></h2>${meds.map(r=>`<div class="c"><div class="row sp"><b>${esc(r.time)}</b><span class="tag">${S.taken[r.id+td()]?'Concluído':'Pendente'}</span></div><b>${esc(r.title)} · ${esc(r.dose)}</b><div class="m">${esc(r.freq)} · conforme prescrição<br>Diário${r.end?' · até '+fmt(r.end):''}</div>${S.taken[r.id+td()]?'':'<div class="m">Registrar tomada em Medicamentos.</div>'}</div>`).join('')||'<div class="m">Nada hoje.</div>'}
+<h2>Depois de hoje</h2>${e.map(x=>`<div class="c t" onclick="go('remcfg',{id:'${x.id}'})"><b>${esc(x.t)}</b><div class="m">Alerta: ${fmt(x.al)}, ${x.h}${x.on?'':' · desativado'}<br>Evento: ${fmt(x.k,1)} · ${x.n} dia(s) antes</div></div>`).join('')||'<div class="m">Nada agendado.</div>'}
+<div class="m">Horários e entrega de alertas dependem das permissões e configurações do sistema operacional.</div>`},
+remcfg:()=>{const r=S.recs.find(x=>x.id===v.id),d=r.date||r.next,ev=r.type==='vacina'?r.next:r.type==='exame'?r.next:r.date;
+return `${hd('Preferências · agenda','Configurar lembretes','Escolha como se preparar para cada evento.')}
+<div class="c"><div class="eb">Evento associado</div><b>${esc(r.title)}</b><div class="m">${fmt(ev)}${r.time?', '+esc(r.time):''}<br>${esc([r.pro,r.place].filter(Boolean).join(' · '))}</div></div>
+<div class="c row sp"><div><b>Lembrete na agenda</b><div class="m">Mantém o aviso associado ao evento.</div></div><input type="checkbox" class="sw" id="ro" ${on(r)?'checked':''}></div>
+<label class="l">Antecedência</label><select id="rdays">${[0,1,2,7].map(n=>`<option value="${n}" ${lead(r)===n?'selected':''}>${n?n+' dia(s) antes':'No dia'}</option>`).join('')}</select>
+<label class="l">Horário do aviso</label><input id="rtm" type="time" value="${rt(r)}">
+<div class="note">Ajustar o aviso não altera a data do evento nem a prescrição.</div><button class="b" onclick="saveRem('${r.id}')">Salvar preferências</button>`},
+recs:()=>{const ex=S.recs.filter(r=>r.type==='exame'&&r.next),co=S.recs.filter(r=>r.type==='consulta'&&r.next);
+return `${hd('Acompanhamento · recomendações','O cuidado continua.','Retornos de consultas e repetições de exames que você registrou.')}
+<div class="note"><b>Orientações do profissional</b><br>Os prazos abaixo foram informados por você a partir das orientações recebidas. Não são sugestões do aplicativo.</div>
+<h2>Para organizar <span class="m">${ex.length} pendente(s)</span></h2>${ex.map(r=>`<div class="c"><span class="tag">Repetição · ainda não agendada</span><br><b>${esc(r.title)}</b><div class="m">Data recomendada: ${fmt(r.next)}<br>${esc(r.ret||'')}</div><div class="eb">Origem da orientação</div><div class="m">Exame de ${fmt(r.date)}${r.pro?' · '+esc(r.pro):''}.<br>Lembrete: ${fmt(add(r.next,-lead(r)))}, às ${rt(r)}.</div><button class="b" onclick="go('form',{t:'consulta',pre:{title:'Clínica geral',date:'${r.next}',motivo:'Repetição de ${esc(r.title)}'},back:'recs'})">Agendar repetição</button></div>`).join('')||'<div class="m">Nada pendente.</div>'}
+<h2>Já organizado <span class="m">${co.length} agendado(s)</span></h2>${co.map(r=>`<div class="c"><span class="tag">Retorno · ${r.status==='Agendada'?'agendado':'registrado'}</span><br><b>${esc(r.title)}</b><div class="m">${fmt(r.date)}, às ${esc(r.time)}<br>${esc(r.ret||'')}</div><button class="b s" onclick="go('det',{id:'${r.id}',back:'recs'})">Ver consulta vinculada</button></div>`).join('')||'<div class="m">Nenhum retorno registrado.</div>'}
+<div class="m">Se o prazo ou a orientação mudar, edite o registro de origem para manter o contexto.</div>`},
+prof:()=>{const u=S.user;return `${hd('Conta · dados pessoais','Seu perfil de saúde','Mantenha suas informações atualizadas.')}
+<div class="c row"><span class="lg" style="flex:none"><i style="width:46px;height:46px;border-radius:50%;font-size:16px">${esc(u.name.split(' ').map(x=>x[0]).slice(0,2).join('').toUpperCase())}</i></span><div><b>${esc(u.name)}</b><div class="m">Perfil pessoal</div></div></div>
+<label class="l">Nome completo</label><input id="n" value="${esc(u.name)}"><label class="l">Data de nascimento</label><input id="b" type="date" value="${esc(u.birth)}"><label class="l">Gênero</label><select id="g">${['Feminino','Masculino','Outro','Prefiro não informar'].map(o=>`<option ${u.gender===o?'selected':''}>${o}</option>`).join('')}</select><div class="m">Você também pode escolher não informar.</div>
+<label class="l">E-mail</label><input value="${esc(u.email)}" disabled><label class="l">Telefone</label><input id="t" type="tel" value="${esc(u.tel)}">
+<div class="m" style="margin-top:8px">Esses dados identificam seus registros. Não são um cadastro de atendimento médico.</div><button class="b" onclick="Object.assign(S.user,{name:$('#n').value,birth:$('#b').value,gender:$('#g').value,tel:$('#t').value});save();draw()">Salvar alterações</button>
+<div class="c t row sp" style="margin-top:16px" onclick="go('priv')"><div>${I('lock',18)} <b>Privacidade e segurança</b><div class="m">Consentimento, biometria e dados da conta</div></div>›</div>`},
+priv:()=>{const u=S.user;return `${hd('Conta · privacidade e segurança','Você no controle.','Um espaço para suas escolhas sobre os seus dados de saúde.')}
+<div class="note"><b>Seus dados pertencem a você</b><br>Compartilhamento somente com sua autorização. Não há compartilhamento automático com profissionais ou terceiros.</div>
+<h2>Acesso à conta</h2><div class="c row sp"><div><b>Usar biometria</b><div class="m">Acesso neste dispositivo. Requer configuração e permissão do sistema.</div></div><input type="checkbox" class="sw" ${u.bio?'checked':''} onchange="S.user.bio=this.checked;save()"></div>
+<div class="c t" onclick="chpw()"><b>Alterar senha</b><div class="m">Atualize suas credenciais de acesso</div></div>
+<h2>Dados sensíveis e consentimento</h2><div class="c"><b>Consentimento registrado · ${fmt(u.consent)}</b><div class="m">Finalidade: organização do histórico, documentos e lembretes pessoais.</div></div>
+<div class="c t" onclick="alert('Para revogar, use “Excluir conta e dados” abaixo.')"><b>Gerenciar consentimento</b><div class="m">Veja finalidades e opções de revogação</div></div>
+<h2>Compartilhamento</h2><div class="c"><b>Gerenciar autorizações</b><div class="m">Nenhuma autorização de compartilhamento. Você escolhe quais dados compartilhar e com quem.</div></div>
+<h2>Disponibilidade dos registros</h2><div class="c"><span class="tag">${navigator.onLine?'Sincronizado neste dispositivo':'Offline'}</span><div class="m" style="margin-top:6px">Os registros ficam salvos neste dispositivo e continuam acessíveis sem conexão.</div></div>
+<h2>Gerenciar minha conta</h2><button class="b s" onclick="exp()">Exportar meus dados</button><button class="b d" onclick="if(confirm('Excluir conta e todos os dados? Ação definitiva.')){S={recs:[],docs:[],taken:{}};save();go('welcome')}">Excluir conta e dados</button>
+<div class="note" style="margin-top:16px">Segurança e conformidade devem ser validadas antes do uso real.</div><button class="b s" onclick="delete S.sess;save();go('welcome')">Sair da conta</button>`}};
+const newRec=()=>{const t=prompt('Tipo: consulta, exame, vacina ou medicamento','consulta');if(F[t])go('form',{t})};
+async function login(){const e=$('#e').value.trim().toLowerCase();if(S.user&&S.user.email===e&&S.user.ph===await sha($('#p').value)){S.sess=1;save();go('home')}else{err='E-mail ou senha incorretos.';draw()}}
+function bio(){if(S.user&&S.user.bio){S.sess=1;save();go('home')}else{err='Biometria indisponível: ative-a nesta conta, em Perfil › Privacidade.';draw()}}
+async function signup(){const e=$('#e').value.trim().toLowerCase(),p=$('#p').value;
+if(!$('#n').value.trim()||!/^\S+@\S+\.\S+$/.test(e))err='Informe nome e e-mail válidos.';else if(p.length<8||!/\d/.test(p)||!/[a-z]/i.test(p))err='Use ao menos 8 caracteres, letras e números.';else if(p!==$('#p2').value)err='As senhas não coincidem.';else err='';
+if(err)return draw();S.user={name:$('#n').value.trim(),email:e,ph:await sha(p),consent:td()};S.sess=1;save();go('home')}
+function saveRec(){const fs=F[v.t],r={...(S.recs.find(x=>x.id===v.id)||{}),type:v.t,id:v.id||'r'+Date.now()};
+fs.forEach(([k,l,t])=>{if(k==='n:'||k==='#')return;if(t&&t.startsWith('seg')){r[k]=$('.seg').dataset.v||r[k]||'Agendada'}else r[k]=$('#f_'+k).value.trim()});
+const miss=fs.filter(([k,l])=>l&&l.includes('*')&&!r[k]);if(miss.length){err='Preencha: '+miss.map(x=>x[1].replace(' *','')).join(', ');return draw()}
+const i=S.recs.findIndex(x=>x.id===r.id);i<0?S.recs.push(r):S.recs[i]=r;save();go(v.t==='medicamento'?'meds':v.t==='vacina'?'vac':'hist')}
+function del(id){if(confirm('Excluir este registro? Os documentos ficam no perfil.')){S.recs=S.recs.filter(r=>r.id!==id);S.docs.forEach(d=>{if(d.link===id){d.link='';d.cat='Receitas'}});save();go('hist')}}
+function saveRem(id){const r=S.recs.find(x=>x.id===id);r.rem={on:$('#ro').checked,days:+$('#rdays').value,time:$('#rtm').value};save();go('rem')}
+function pick(i){const x=i.files[0];if(!x)return;const p={name:x.name,type:x.type,size:x.size>1e6?(x.size/1e6).toFixed(1)+' MB':Math.ceil(x.size/1e3)+' KB'};
+if(x.size<1.5e6){const fr=new FileReader();fr.onload=()=>{p.url=fr.result;pend=p;go('rev',{link:v.link})};fr.readAsDataURL(x)}else{pend=p;go('rev',{link:v.link})}}
+function chk(){$('#rs').disabled=!($('#rc').checked&&$('#rl').value)}
+function saveDoc(){const l=$('#rl').value;S.docs.unshift({id:'d'+Date.now(),name:$('#rn').value||pend.name,size:pend.size,url:pend.url,date:$('#rd').value||td(),link:l.startsWith('cat:')?'':l,cat:l.startsWith('cat:')?l.slice(4):''});pend=null;save();go('docs')}
+function perm(){if(typeof Notification==='undefined')return alert('Este navegador não suporta notificações.');Notification.requestPermission().then(draw)}
+function chpw(){const p=prompt('Nova senha (mín. 8, letras e números)');if(p&&p.length>=8&&/\d/.test(p)&&/[a-z]/i.test(p))sha(p).then(h=>{S.user.ph=h;save();alert('Senha atualizada.')});else if(p)alert('Senha inválida.')}
+function exp(){const j=JSON.stringify({user:{...S.user,ph:undefined},recs:S.recs,docs:S.docs.map(d=>({...d,url:undefined}))},null,1);navigator.clipboard?.writeText(j).then(()=>alert('Cópia dos seus dados copiada.'))}
+addEventListener('online',draw);addEventListener('offline',draw);
+v.n=S.sess&&S.user?'home':'welcome';draw();
+</script></body></html>
